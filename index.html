@@ -514,7 +514,7 @@ function renderTable() {
       <td>${student.batch}</td>
       <td>${student.email}</td>
       <td>
-        <button class="status-btn ${student.attendance === "Present" ? 'present' : 'absent'}" data-id="${student.id}">
+         <button class="status-btn ${student.attendance === "Absent" ? 'absent' : 'present'}" data-id="${student.id}">
           ${student.attendance}
         </button>
       </td>
