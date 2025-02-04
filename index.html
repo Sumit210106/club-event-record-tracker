@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astronomy Club Webinar</title>
+  <!-- Lucide Icons CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.244.0/dist/umd/lucide.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+  <!-- External CSS -->
+  <!-- <link rel="stylesheet" href="admin.css" /> -->
+   <style>
+    /* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'poppins', sans-serif;
+    background-color: #000; /* Deep space black */
+  }
+  
+  /* Background Layers */
+  .background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  /* Cosmic starry backdrop with a pulsing effect */
+  .bg-stars {
+    position: absolute;
+    inset: 0;
+    background: url('https://img.freepik.com/free-vector/abstract-blue-light-pipe-speed-zoom-black-background-technology_1142-9980.jpg') no-repeat center center;
+    background-size: cover;
+    opacity: 1;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  
+  /* Nebula overlay for depth */
+  .bg-nebula {
+    position: absolute;
+    inset: 0;
+    background: url('https://img.freepik.com/free-vector/abstract-blue-light-pipe-speed-zoom-black-background-technology_1142-9980.jpg') no-repeat center center;
+    background-size: cover;
+    opacity: 0.1;
+    transform: scale(1.1);
+    animation: float 20s ease-in-out infinite;
+  }
+  
+  /* Dark gradient to simulate distant galaxies */
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to br, #0a1929, #0a1929 70%, #1a237e 100%);
+    opacity: 0.5;
+  }
+  
+  /* Animated overlay with a subtle cosmic tint */
+  .bg-animated {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to tr, rgba(128,0,128,0.05), transparent, rgba(0,0,255,0.05));
+    animation: gradient 10s ease-in-out infinite;
+  }
+  
+  /* Keyframes for background animations */
+  @keyframes pulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes float {
+    0% { transform: translateY(0) scale(1.1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+    100% { transform: translateY(0) scale(1.1); }
+  }
+  @keyframes gradient {
+    0%, 100% { opacity: 0.05; }
+    50% { opacity: 0.1; }
+  }
+  
+  /* Header */
+  .header {
+    background: linear-gradient(90deg, rgba(0,0,25,0.7), rgba(10,10,40,0.7));
+    backdrop-filter: blur(10px);
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(50,150,255,0.3);
+    text-align: center;
+  }
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .icon-group {
+    position: relative;
+  }
+  .stars-icon {
+    width: 56px;
+    height: 56px;
+    color: #42a5f5;
+    animation: pulse 2s infinite;
+    transition: transform 0.3s;
+  }
+  .icon-group:hover .stars-icon {
+    transform: scale(1.1);
+  }
+  .header-text h1 {
+    font-family: 'poppins', sans-serif;
+    font-size: 2.5rem;
+    background: linear-gradient(to right, #42a5f5, #ab47bc, #42a5f5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+  }
+  .header-text .date {
+    margin-top: 8px;
+    font-size: 1.1rem;
+    color: #90caf9;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .calendar-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Main Content */
+  .main-content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .stat {
+    background: rgba(10, 10, 30, 0.6);
+    backdrop-filter: blur(8px);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(50,150,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.3s, background 0.3s;
+    cursor: default;
+  }
+  .stat:hover {
+    transform: scale(1.05);
+    background: rgba(10, 10, 30, 0.8);
+  }
+  .stat .icon {
+    width: 40px;
+    height: 40px;
+    color: #42a5f5;
+  }
+  .stat .label {
+    font-size: 0.75rem;
+    color: #bbb;
+    text-transform: uppercase;
+  }
+  .stat .value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #42a5f5, #42a5f5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Controls */
+  .controls {
+    background: rgba(10, 10, 30, 0.6);
+    backdrop-filter: blur(8px);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(50,150,255,0.3);
+    margin-bottom: 30px;
+  }
+  .control-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  .btn {
+    background: linear-gradient(45deg, #0f2027, #203a43);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s, background 0.3s;
+  }
+  .btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #203a43, #0f2027);
+  }
+  .search-group {
+    position: relative;
+    max-width: 300px;
+    margin-left: auto;
+  }
+  #search-input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(50,150,255,0.3);
+    background: rgba(10,10,30,0.6);
+    color: #fff;
+    outline: none;
+    transition: border 0.3s;
+  }
+  #search-input:focus {
+    border: 1px solid rgba(50,150,255,0.6);
+  }
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #90caf9;
+  }
+  
+  /* Expandable Filters */
+  .filters {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+  .filters.hidden {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .filter-btn {
+    background: rgba(10,10,30,0.6);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+  }
+  .filter-btn:hover {
+    transform: scale(1.05);
+    background: rgba(10,10,30,0.8);
+  }
+  
+  /* Table */
+  .table-section {
+    overflow-x: auto;
+  }
+  #students-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(10,10,30,0.5);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #students-table thead {
+    background: rgba(10,10,40,0.7);
+  }
+  #students-table th,
+  #students-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  #students-table th {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    color: #90caf9;
+  }
+  #students-table td {
+    font-size: 1rem;
+    color: #fff;
+  }
+  .status-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .status-btn:hover {
+    transform: scale(1.05);
+  }
+  .present {
+    background: #00e676; /* Neon green for present */
+  }
+  .absent {
+    background: #ff1744; /* Neon red for absent */
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stats {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    .control-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  
+   </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Dynamic Space Background -->
+    <div class="background">
+      <div class="bg-stars"></div>
+      <div class="bg-nebula"></div>
+      <div class="bg-gradient"></div>
+      <div class="bg-animated"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="icon-group">
+          <i data-lucide="stars" class="icon stars-icon"></i>
+        </div>
+        <div class="header-text">
+          <h1>Astronomy Club Webinar Record <br/> 8th Feb</h1>
+          <p class="date">
+            <i data-lucide="calendar" class="icon calendar-icon"></i>
+            <br/>
+            <span id="current-date"></span>
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Stats -->
+      <section class="stats">
+        <div class="stat" id="stat-total">
+          <i data-lucide="users" class="icon"></i>
+          <div>
+            <p class="label">Total Students</p>
+            <p class="value" id="total-count">0</p>
+          </div>
+        </div>
+        <div class="stat" id="stat-present">
+          <i data-lucide="user-check" class="icon"></i>
+          <div>
+            <p class="label">Present</p>
+            <p class="value" id="present-count">0</p>
+          </div>
+        </div>
+        <div class="stat" id="stat-absent">
+          <i data-lucide="user-x" class="icon"></i>
+          <div>
+            <p class="label">Absent</p>
+            <p class="value" id="absent-count">0</p>
+          </div>
+        </div>
+        <div class="stat" id="stat-rate">
+          <i data-lucide="rocket" class="icon"></i>
+          <div>
+            <p class="label">Attendance Rate</p>
+            <p class="value" id="attendance-rate">0%</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Controls -->
+      <section class="controls">
+        <div class="control-group">
+          <button id="toggle-filters" class="btn">
+            <i data-lucide="filter" class="icon"></i>
+            <span>Filters</span>
+          </button>
+        </div>
+        <div class="search-group">
+          <input type="text" id="search-input" placeholder="Search students..." />
+          <i data-lucide="search" class="icon search-icon"></i>
+        </div>
+        <!-- Expandable Filters -->
+        <div id="filters" class="filters hidden">
+          <button data-filter="all" class="filter-btn">All Students</button>
+          <button data-filter="present" class="filter-btn">Present</button>
+          <button data-filter="absent" class="filter-btn">Absent</button>
+        </div>
+      </section>
+
+      <!-- Data Table -->
+      <section class="table-section">
+        <table id="students-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>URN</th>
+              <th>Batch</th>
+              <th>Email</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be inserted dynamically -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <!-- <script type= 'module' src="admin.js"></script> -->
+   <script type="module">
+// Import Supabase client via CDN (ESM)
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+// Initialize Supabase client (replace with actual credentials)
+const supabaseUrl = 'https://oskiqdthpejzihtjybwc.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9za2lxZHRocGVqemlodGp5YndjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg2NTQ5NDYsImV4cCI6MjA1NDIzMDk0Nn0.1R6vsew8QNk7_vMp5P4qFNJBOfNG1Fkl9AQXS-XOSeE';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Global state initialization
+let students = []; // Fetched data from Supabase
+let filter = 'all'; // Filter options: 'all' | 'present' | 'absent'
+let searchTerm = '';
+let showFilters = false;
+
+// DOM element references
+const tableBody = document.querySelector("#students-table tbody");
+const searchInput = document.getElementById("search-input");
+const toggleFiltersBtn = document.getElementById("toggle-filters");
+const filtersContainer = document.getElementById("filters");
+const totalCountEl = document.getElementById("total-count");
+const presentCountEl = document.getElementById("present-count");
+const absentCountEl = document.getElementById("absent-count");
+const attendanceRateEl = document.getElementById("attendance-rate");
+const filterButtons = document.querySelectorAll(".filters .filter-btn");
+
+// Set current date in header
+document.getElementById("current-date").textContent = new Date().toLocaleDateString();
+
+// Fetch students data from Supabase
+async function fetchStudents() {
+  const { data, error } = await supabase
+    .from('webinar-registration')
+    .select('*');
+  if (error) { console.error("Error fetching data:", error); return; }
+  students = data;
+  renderTable();
+}
+
+// Render statistics based on attendance
+function renderStats() {
+  const total = students.length;
+  const present = students.filter(s => s.attendance === "Present").length;
+  const absent = students.filter(s => s.attendance === "Absent").length;
+  const rate = total ? ((present / total) * 100).toFixed(1) : 0;
+  totalCountEl.textContent = total;
+  presentCountEl.textContent = present;
+  absentCountEl.textContent = absent;
+  attendanceRateEl.textContent = `${rate}%`;
+}
+
+// Render the student table with filters and search applied
+function renderTable() {
+  const filteredStudents = students.filter(student => {
+    const matchesFilter =
+      filter === 'all' ||
+      (filter === 'present' && student.attendance === "Present") ||
+      (filter === 'absent' && student.attendance === "Absent");
+    const lowerSearch = searchTerm.toLowerCase();
+    const matchesSearch =
+      student.name.toLowerCase().includes(lowerSearch) ||
+      student.urn.toLowerCase().includes(lowerSearch) ||
+      student.email.toLowerCase().includes(lowerSearch);
+    return matchesFilter && matchesSearch;
+  });
+
+  tableBody.innerHTML = "";
+  filteredStudents.forEach(student => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${student.name}</td>
+      <td>${student.urn}</td>
+      <td>${student.batch}</td>
+      <td>${student.email}</td>
+      <td>
+        <button class="status-btn ${student.attendance === "Present" ? 'present' : 'absent'}" data-id="${student.id}">
+          ${student.attendance}
+        </button>
+      </td>
+    `;
+    tableBody.appendChild(tr);
+  });
+
+  document.querySelectorAll(".status-btn").forEach(btn => {
+    const id = btn.getAttribute("data-id"); // Use string id for consistency
+    console.log("Button data-id:", id);
+    btn.addEventListener("click", () => { toggleAttendance(id); });
+  });
+  renderStats();
+}
+
+// Toggle attendance and update Supabase
+async function toggleAttendance(id) {
+  const student = students.find(s => String(s.id) === String(id));
+  if (!student) { console.error("Student not found with id:", id); return; }
+  const newStatus = student.attendance === "Present" ? "Absent" : "Present";
+  console.log(`Toggling attendance for id ${id}: New status: ${newStatus}`);
+
+  const { data, error } = await supabase
+    .from('webinar-registration')
+    .update({ attendance: newStatus })
+    .eq('id', id);
+  if (error) { console.error("Error updating attendance in Supabase:", error); return; }
+  console.log("Successfully updated attendance in Supabase:", data);
+
+  students = students.map(s => (String(s.id) === String(id) ? { ...s, attendance: newStatus } : s));
+  renderTable();
+}
+
+// Event listeners for search and filter controls
+searchInput.addEventListener("input", (e) => {
+  searchTerm = e.target.value;
+  renderTable();
+});
+toggleFiltersBtn.addEventListener("click", () => {
+  showFilters = !showFilters;
+  filtersContainer.classList.toggle("hidden", !showFilters);
+});
+filterButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    filter = btn.getAttribute("data-filter");
+    filterButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderTable();
+  });
+});
+
+// Initial fetch from Supabase
+fetchStudents();
+
+   </script>
+  <script>
+    // After page load, initialize lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
