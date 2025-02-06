@@ -441,12 +441,12 @@
   <!-- <script type= 'module' src="admin.js"></script> -->
    <script type="module">
 // Import Supabase client via CDN (ESM)
+import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 // Initialize Supabase client (replace with actual credentials)
-const supabaseUrl = 'https://oskiqdthpejzihtjybwc.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9za2lxZHRocGVqemlodGp5YndjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg2NTQ5NDYsImV4cCI6MjA1NDIzMDk0Nn0.1R6vsew8QNk7_vMp5P4qFNJBOfNG1Fkl9AQXS-XOSeE';
-const supabase = createClient(supabaseUrl, supabaseKey);
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Global state initialization
 let students = []; // Fetched data from Supabase
